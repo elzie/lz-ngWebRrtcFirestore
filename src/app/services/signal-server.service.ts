@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { reject } from 'q';
+import { RTCMultiConnection } from './../../../node_modules/multirtc-firebase/RTCMultiConnection_v3.4.7';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { reject } from 'q';
 export class SignalServerService {
   personId;
   constructor(
-    private db: AngularFirestore
+    public db: AngularFirestore
   ) { }
   // In theory:
   // https://github.com/quangtqag/VideoChat/blob/master/Sources/Services/SignalingClient.swift
@@ -18,6 +19,24 @@ export class SignalServerService {
   // 3. sendCandidate
   // 4. listenSDP
   // 5. listenCandidate
+  selectPersonFromServer(id?) {
+    console.log('** person id :', id);
+    let citiesRef = this.db.collection('signalServer').ref;
+    let query = citiesRef.where('id', '==', id).get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          console.log('No matching documents.');
+          return;
+        }
+
+        snapshot.forEach(doc => {
+          console.log(doc.id, '=>', doc.data());
+        });
+      })
+      .catch(err => {
+        console.log('Error getting documents', err);
+      });
+  }
 
   testSendToFirestore(data?) {
     const webRtcData = {
@@ -43,11 +62,10 @@ export class SignalServerService {
     // this works.
   }
 
-  deleteSdpAndCandidate(data?, deleteId?) {
+  deleteSdpAndCandidate(deleteId?) {
     console.log('** detele SDP and Candidate ');
-    const person = 'lMTFpWV2tRj82ckByrnL'; // this.personId;
-    // return this.db.collection('signalServer').doc(person).delete();
-
+    const person = deleteId; // this.personId;
+    return this.db.collection('signalServer').doc(person).delete();
   }
 
   sendSDP(rtcSDP?) {
@@ -75,12 +93,15 @@ export class SignalServerService {
 
   listenSDP() {
     console.log('** listen to SDP from Firestore ');
-    return this.db.collection('signalServer').doc('sdp').snapshotChanges();
+    return this.db.collection('signalServer').doc('webRtcData').snapshotChanges();
   }
 
   listenCandidate() {
     console.log('** listen to Candidate from Firestore ');
     return this.db.collection('signalServer').doc('candidate').snapshotChanges();
   }
-
+  getPersons() {
+    console.log('** get persons ');
+    return this.db.collection('signalServer').snapshotChanges();
+  }
 }

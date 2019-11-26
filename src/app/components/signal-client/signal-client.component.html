@@ -1,13 +1,43 @@
 <p>signal-client works!</p>
+<table>
+    <tr>
+        <td>
 
-<button (click)="server.testSendToFirestore()">test send to firestore</button> <br>
-<br>
-<button (click)="server.sendSDP()">Send SDP</button> <br>
-<br>
-<button (click)="server.sendCandidate()">Send Candidate</button> <br>
-<br>
-<button (click)="server.listenSDP()">Listen SDP</button> <br>
-<br>
-<button (click)="server.listenCandidate()">Listen Candidate</button> <br>
-<br>
-<button (click)="server.deleteSdpAndCandidate()">Delete both SDP and Candidate</button> <br>
+            <button (click)="server.testSendToFirestore()">test send to firestore</button> <br>
+            <br>
+            <!-- <button (click)="addPerson()">add person to server</button> <br> -->
+            <br>
+            <button (click)="server.sendSDP()">Send SDP</button> <br>
+            <br>
+            <button (click)="server.sendCandidate()">Send Candidate</button> <br>
+            <br>
+            <button (click)="server.listenSDP()">Listen SDP</button> <br>
+            <br>
+            <button (click)="server.listenCandidate()">Listen Candidate</button> <br>
+            <br>
+            <button (click)="server.deleteSdpAndCandidate(this.selectedPerson)">Delete both SDP and Candidate</button>
+            <br>
+            <label>ID: {{ selectedPerson }}</label>
+
+
+        </td>
+
+        <td style="border: 1px solid blue;">
+            <ul *ngFor="let person of persons">
+                <li (click)="selectEntry(person.payload.doc.id)">{{ person.payload.doc.id }}<br>
+                    {{ person }}
+                </li>
+            </ul>
+        </td>
+
+        <td>
+            <label>{{ selectedPerson }}</label>
+
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="border: 1px solid blue;">
+            Selected person sdp Status:
+        </td>
+    </tr>
+</table>
