@@ -1,5 +1,34 @@
 # LzNgWebrtcFirestore
 
+my process: 
+ng new lz-ngWebrtcFirestore
+npm install firebase @angular/fire hammerjs --save
+
+2.Import all the packages from angularfire app.module.ts
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+
+3.Inject the modules into the imports array on the NGModule annotation.
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule,
+    AngularFireMessagingModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+
+4.Add Firebase Config to Environment
+# 
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.6.
 
 ## Development server
