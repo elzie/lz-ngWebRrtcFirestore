@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { reject } from 'q';
-import { RTCMultiConnection } from './../../../node_modules/multirtc-firebase/RTCMultiConnection_v3.4.7';
+// import { RTCMultiConnection } from './../../../node_modules/multirtc-firebase/RTCMultiConnection_v3.4.7';
 
 
 @Injectable({
@@ -19,6 +19,12 @@ export class SignalServerService {
   // 3. sendCandidate
   // 4. listenSDP
   // 5. listenCandidate
+  // however...
+  // and this works:
+  // https://github.com/muaz-khan/Reliable-Signaler/tree/master/rtcmulticonnection-client
+  // and a Firebase socket handler...
+  // https://www.rtcmulticonnection.org/docs/setCustomSocketHandler/
+
   selectPersonFromServer(id?) {
     console.log('** person id :', id);
     let citiesRef = this.db.collection('signalServer').ref;
