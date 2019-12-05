@@ -14,11 +14,10 @@ export class SignalClientComponent implements OnInit {
   server = this.signalServer;
   persons;
   selectedPerson = 'temp-id';
+
   ngOnInit() {
     this.getPersons();
   }
-
-  //addPerson = person => this.server.addPersonToServer(this.selectedPerson);
 
   getPersons = () => {
     console.log('** get persons 2 ');
